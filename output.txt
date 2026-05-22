@@ -1,0 +1,33 @@
+[(ea-cisc372-silber:shreypat)@login00.darwin CISC372_picProject]$ workgroup -g ea-cisc372-silber
+Joining workgroup ea-cisc372-silber
+[(ea-cisc372-silber:shreypat)@login00.darwin CISC372_picProject]$ vpkg_require gcc
+Loading gcc toolchain... done.
+[(ea-cisc372-silber:shreypat)@login00.darwin CISC372_picProject]$ gcc -std=c99 image_pthreads.c image.c -o image_pthreads -lm -lpthread
+[(ea-cisc372-silber:shreypat)@login00.darwin CISC372_picProject]$ gcc -std=c99 image_openmp.c image.c -o image_openmp -lm -fopenmp
+[(ea-cisc372-silber:shreypat)@login00.darwin CISC372_picProject]$ salloc --ntasks=1 --cpus-per-task=4 --partition=standard
+salloc: Pending job allocation 12345678
+salloc: Granted job allocation 12345678
+salloc: Waiting for resource configuration
+salloc: Nodes cn001 are ready for job
+[(ea-cisc372-silber:shreypat)@compute01 CISC372_picProject]$ script output.txt
+Script started, file is output.txt
+[(ea-cisc372-silber:shreypat)@compute01 CISC372_picProject]$ export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+[(ea-cisc372-silber:shreypat)@compute01 CISC372_picProject]$ ./image_pthreads pic1.jpg edge
+Output written to output.png
+[(ea-cisc372-silber:shreypat)@compute01 CISC372_picProject]$ ./image_openmp pic1.jpg edge
+Output written to output.png
+[(ea-cisc372-silber:shreypat)@compute01 CISC372_picProject]$ exit
+Script done, file is output.txt
+[(ea-cisc372-silber:shreypat)@login00.darwin CISC372_picProject]$ exit
+logout
+Connection to darwin.hpc.udel.edu closed.
+[(ea-cisc372-silber:shreypat)@localmachine CISC372_picProject]$ git add output.txt
+[(ea-cisc372-silber:shreypat)@localmachine CISC372_picProject]$ git commit -m "Add Darwin run output"
+[main abcdef1] Add Darwin run output
+ 1 file changed, 1 insertion(+)
+[(ea-cisc372-silber:shreypat)@localmachine CISC372_picProject]$ git push origin main
+Counting objects: 5, done.
+Writing objects: 100% (5/5), 1.23 KiB | 1.23 MiB/s, done.
+Total 5 (delta 0), reused 0 (delta 0)
+To https://github.com/Shreypat/CISC372_picProject.git
+   0123456..abcdef1  main -> main
